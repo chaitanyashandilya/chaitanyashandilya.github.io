@@ -94,3 +94,8 @@ html.motion-enabled .project-card:nth-child(3n+2){transition-delay:.07s}html.mot
 @media(prefers-reduced-motion:reduce){.marquee-track{animation:none}.marquee-group[aria-hidden="true"]{display:none}.marquee-toggle{display:none}}
 @media(max-width:800px){.contact-grid{grid-template-columns:1fr;gap:18px}.map-panel{min-height:310px}.contact-form-panel{padding:24px}}
 @media(max-width:600px){.work-marquee{padding:18px 0 21px}.marquee-group{gap:24px;padding:9px 12px}.marquee-brand{font-size:16px}.brand-furnofy{font-size:21px}.brand-infusion,.brand-task{font-size:14px}.brand-careers{font-size:13px}.contact-grid{margin-top:35px}.map-panel{min-height:260px}.map-caption{left:10px;top:10px;min-width:230px;padding:10px}.contact-form-panel{padding:20px 17px}.contact-form-panel h3{font-size:28px}.form-row{grid-template-columns:1fr;gap:12px}.contact-links{flex-direction:column;gap:13px;padding:19px 0}.contact-links a{font-size:10px}}
+
+/* Keep action controls clear of decorative arrow glyphs. */
+a.arrow-mark{width:auto;height:auto;border:0;border-bottom:1px solid var(--line);border-radius:0;display:inline-flex;align-items:center;place-items:initial;padding:8px 0;color:var(--muted);font:8px var(--mono);letter-spacing:.08em;flex:0 0 auto;transition:color .2s,border-color .2s}
+.project-card:hover a.arrow-mark{background:none;color:var(--orange);border-color:var(--orange)}
+.send-button{justify-content:center}
