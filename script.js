@@ -26,15 +26,53 @@ marqueeToggle.addEventListener('click', () => {
 });
 
 const contactForm = document.querySelector('#contact-form');
-contactForm.addEventListener('submit', (event) => {
+const formStatus = document.querySelector('#form-status');
+const formPanel = document.querySelector('.contact-form-panel');
+const sentOverlay = document.querySelector('#sent-overlay');
+const sendButton = contactForm.querySelector('.send-button');
+const sendLabel = sendButton.querySelector('span');
+const OWNER_EMAIL = 'chanuchaitanyashandilya3@gmail.com';
+// Paste your deployed Cloudflare Worker URL here (see contact-worker/SETUP.md).
+const CONTACT_ENDPOINT = 'https://portfolio-contact.chanuchaitanyashandilya3.workers.dev';
+
+contactForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const fields = new FormData(contactForm);
+  if (fields.get('_honey')) return;
   const name = fields.get('name').trim();
   const email = fields.get('email').trim();
   const message = fields.get('message').trim();
-  const subject = encodeURIComponent(`Portfolio inquiry from ${name}`);
-  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-  window.location.href = `mailto:chanuchaitanyashandilya3@gmail.com?subject=${subject}&body=${body}`;
+
+  sendButton.disabled = true;
+  sendLabel.textContent = 'Sending…';
+  try {
+    if (!CONTACT_ENDPOINT) throw new Error('endpoint not configured');
+    const response = await fetch(CONTACT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message })
+    });
+    const result = await response.json();
+    if (!response.ok || !result.ok) throw new Error(result.error || 'send failed');
+    contactForm.reset();
+    formPanel.classList.add('is-sent');
+    sentOverlay.setAttribute('aria-hidden', 'false');
+    sentOverlay.setAttribute('role', 'status');
+    sentOverlay.querySelector('.sent-again').focus({ preventScroll: true });
+    formStatus.textContent = 'Your message goes straight to my inbox.';
+  } catch {
+    formStatus.innerHTML = `Couldn’t send right now. Please email me at <a href="mailto:${OWNER_EMAIL}">${OWNER_EMAIL}</a>.`;
+    sendLabel.textContent = 'Send message';
+  } finally {
+    sendButton.disabled = false;
+    sendLabel.textContent = 'Send message';
+  }
+});
+
+sentOverlay.querySelector('.sent-again').addEventListener('click', () => {
+  formPanel.classList.remove('is-sent');
+  sentOverlay.setAttribute('aria-hidden', 'true');
+  contactForm.querySelector('input').focus({ preventScroll: true });
 });
 
 const revealItems = document.querySelectorAll('[data-reveal]');

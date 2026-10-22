@@ -1,10 +1,10 @@
 # Chaitanya Shandilya — Portfolio
 
-A responsive, static portfolio website built with HTML, CSS, JavaScript, and a locally stored profile photo. It includes a moving project wordmark reel, scroll reveals, a Google Maps location search, and a mailto contact form. It is ready to publish on GitHub Pages.
+A responsive, static portfolio website built with HTML, CSS, JavaScript, and a locally stored profile photo. It includes a moving project wordmark reel, scroll reveals, a Google Maps location search, and a contact form that emails me through a Cloudflare Worker and Resend. It is ready to publish on GitHub Pages.
 
 ## Local preview
 
-Open `index.html` in a browser. Google Fonts and the map are loaded from external services; the layout falls back to system fonts if fonts are unavailable. The contact form opens the visitor’s email app; it does not store or send form data through a server.
+Open `index.html` in a browser. Google Fonts and the map are loaded from external services; the layout falls back to system fonts if fonts are unavailable. The contact form posts to a small Cloudflare Worker that forwards messages by email.
 
 ## Publish with GitHub Pages
 
